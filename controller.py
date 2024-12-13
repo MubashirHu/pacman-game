@@ -19,6 +19,13 @@ class Controller:
         self._last_direction = None
         self._pacman_update_event = 1
 
+        self.direction_map = {
+            "w":Direction._up,
+            "a":Direction._left,
+            "s":Direction._down,
+            "d":Direction._right
+            }
+        
     def _initialize_game(self):
         if self.my_model._initialize():
             if self.my_view._initialize():
@@ -49,38 +56,15 @@ class Controller:
         return 1
 
     def _get_user_input(self, direction):
-        if(direction == "w"):
-            if self._last_key_pressed == "w" and self._last_direction == Direction._up:
-                pass
-            else:
-                self.my_model.Pacman._movement_direction = Direction._up
-                self._last_key_pressed = "w"
-                self._update_pacman_position()
 
-        if(direction == "a"):
-            if self. _last_key_pressed == "a" and self._last_direction == Direction._left:
-                pass
-            else:
-                self._last_key_pressed = "a"
-                self.my_model.Pacman._movement_direction = Direction._left
-                self._update_pacman_position()
-
-        if(direction == "s"):
-            if self._last_key_pressed == "s" and self._last_direction == Direction._down:
-                pass
-            else:
-                self._last_key_pressed = "s"
-                self.my_model.Pacman._movement_direction = Direction._down
-                self._update_pacman_position()
-
-        if(direction == "d"):
-            if self._last_key_pressed == "d" and self._last_direction == Direction._right :
-                pass
-            else:
-                self._last_key_pressed = "d"
-                self.my_model.Pacman._movement_direction = Direction._right   
-                self._update_pacman_position()
-
+        if direction in self.direction_map:
+                if self._last_key_pressed == direction and self._last_direction == self.direction_map[direction]:
+                    pass
+                else:
+                    self.my_model.Pacman._movement_direction = self.direction_map[direction]
+                    self._last_key_pressed = direction
+                    self._update_pacman_position()
+                    
     def _updated_position_of_pacman_in_model(self):
         if(self.my_model.Pacman._movement_direction == Direction._up):
             _move_valid = self.my_model._is_move_valid(Direction._up)
