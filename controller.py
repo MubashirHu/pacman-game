@@ -53,7 +53,6 @@ class Controller:
                 self.my_model.Pacman._movement_direction = self._last_direction
 
         self._pacman_update_event = self.my_view._root.after(self.schedulingSpeed, self._update_pacman_position)  # Schedule
-        return 1
 
     def _get_user_input(self, direction):
 
