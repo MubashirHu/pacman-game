@@ -58,7 +58,7 @@ class Controller:
     def _get_user_input(self, direction):
 
         if direction in self.direction_map:
-                if self._last_key_pressed == direction and self._last_direction == self.direction_map[direction]:
+                if self._last_key_pressed == direction:
                     pass
                 else:
                     self.my_model.Pacman._movement_direction = self.direction_map[direction]
@@ -66,43 +66,18 @@ class Controller:
                     self._update_pacman_position()
                     
     def _updated_position_of_pacman_in_model(self):
-        if(self.my_model.Pacman._movement_direction == Direction._up):
-            _move_valid = self.my_model._is_move_valid(Direction._up)
-            if(_move_valid):
-                self._last_direction = Direction._up
-                return 1
-            else:
-                self.my_model.Pacman._movement_direction._idle
-                return 0
+
+        if self.my_model.Pacman._movement_direction in self.direction_map.values():
                 
-        elif (self.my_model.Pacman._movement_direction == Direction._down):
-            _move_valid = self.my_model._is_move_valid(Direction._down)
-            if(_move_valid):
-                self._last_direction = Direction._down
-                return 1
-            else:
-                self.my_model.Pacman._movement_direction._idle
-                return 0
-            
-        elif (self.my_model.Pacman._movement_direction == Direction._left):
-            _move_valid = self.my_model._is_move_valid(Direction._left)
-            if(_move_valid):
-                self._last_direction = Direction._left
-                return 1
-            else:
-                self.my_model.Pacman._movement_direction._idle
-                return 0
-            
-        elif (self.my_model.Pacman._movement_direction == Direction._right):
-            _move_valid = self.my_model._is_move_valid(Direction._right)
-            if(_move_valid):
-                self._last_direction = Direction._right
-                return 1
-            else:
-                self.my_model.Pacman._movement_direction._idle
-                return 0
-        elif (self.my_model.Pacman._movement_direction == Direction._idle):
-            return 0
+                next_pacman_direction = self.my_model.Pacman._movement_direction
+
+                _move_valid = self.my_model._is_move_valid(next_pacman_direction)
+
+                if _move_valid:
+                        self._last_direction = next_pacman_direction
+                        return 1
+                else:
+                        return 0
         
     def _updated_position_of_pacman_in_view(self):
         self.my_view._draw_shape(self.my_model.Pacman._position[0], self.my_model.Pacman._position[1], gamePiece._pacman) # draw pacman
